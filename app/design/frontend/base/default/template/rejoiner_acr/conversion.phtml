@@ -1,0 +1,9 @@
+<?php
+/* @var Rejoiner_Acr_Block_Conversion $this */
+?>
+<?php $card = array(
+    'cart_data' => $this->getCartData(),
+    'cart_items' => $this->getCartItems()
+
+); ?>
+_rejoiner.push(['sendConversion', <?php echo str_replace('\\/', '/', json_encode($card)); ?>]);

@@ -1,0 +1,24 @@
+<?php
+/**
+ * @see Rejoiner_Acr_Block_Adminhtml_Notification
+ */
+?>
+<?php if ($this->canShow()): ?>
+<?php $secure = Mage::helper('rejoiner_acr')->checkHttps(); ?>
+<script type="text/javascript">
+    function denyRejoinerNotification() {
+        new Ajax.Request('<?php echo $this->getUrl('*/rejoiner/denyNotification', array('_current' => true, '_secure' => $secure)); ?>', {
+            method: 'post',
+            onComplete: function(transport) {
+                if (200 == transport.status) {
+                    if ($('rejoiner_notification'))
+                        $('rejoiner_notification').remove();
+                }
+            }
+        });
+    }
+</script>
+<div id="rejoiner_notification" class="notification-global notification-global-notice">
+    <strong>Rejoiner:</strong> <?php echo $this->helper('rejoiner_acr')->__('It looks like your checkout configuration has been modified by another extension. This is not always an issue, but please email') ?> <a href="mailto:support@rejoiner.com" >support@rejoiner.com</a><?php echo $this->helper('rejoiner_acr')->__(' to verify that your Rejoiner tags are injecting properly') ?>. <a href="#" onclick="denyRejoinerNotification(); return false;"><?php echo $this->helper('rejoiner_acr')->__('Never show this message again') ?></a>
+</div>
+<?php endif; ?>

@@ -1,0 +1,20 @@
+<?php /** @var Rejoiner_Acr_Block_Snippets $this */ ?>
+<?php
+    /** @var Rejoiner_Acr_Helper_Data $rejoinerHelper */
+    $rejoinerHelper = $this->helper('rejoiner_acr');
+    /** @var Mage_Checkout_Helper_Cart $cartHelper */
+    $cartHelper =  Mage::helper('checkout/cart');
+?>
+<?php if ($rejoinerHelper->getTrackNumberEnabled()): ?>
+    _rejoiner.push(["trackNumbers"]);
+<?php endif; ?>
+<?php if ($rejoinerHelper->getPersistFormsEnabled()): ?>
+    _rejoiner.push(["persistForms"]);
+<?php endif; ?>
+
+<?php if ($cartHelper->getCart()->getSummaryQty()): ?>
+     _rejoiner.push(["setCartData", <?php echo str_replace('\\/', '/', json_encode($this->getCartData())); ?>]);
+    <?php foreach ($this->getCartItems() as $item): ?>
+        _rejoiner.push(["setCartItem", <?php echo str_replace('\\/', '/', json_encode($item)); ?>]);
+    <?php endforeach; ?>
+<?php endif; ?>

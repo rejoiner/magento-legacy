@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+
+    <default>
+        <reference name="notifications">
+            <block type="rejoiner_acr/adminhtml_notification" name="notification_rejoiner" template="rejoiner_acr/notification.phtml"/>
+        </reference>
+    </default>
+
+</layout>

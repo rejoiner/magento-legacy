@@ -1,0 +1,29 @@
+<?php
+/* @var $this Rejoiner_Acr_Block_Snippets */
+?>
+<script type="text/javascript">
+    var _rejoiner = _rejoiner || [];
+    _rejoiner.push(["setAccount", "<?php echo $this->helper('rejoiner_acr')->getRejoinerSiteId() ?>"]);
+    _rejoiner.push(["setDomain", "<?php echo $this->helper('rejoiner_acr')->getDomain() ?>"]);
+
+    <?php echo $this->getChildHtml();?>
+
+    (function() {
+        var s = document.createElement('script'); s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://cdn.rejoiner.com/js/v4/rejoiner.lib.js';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+    })();
+</script>
+
+<?php if ($removedItems = $this->helper('rejoiner_acr')->checkRemovedItem()): ?>
+    <script type="text/javascript">
+        /** removeCartItem **/
+        //<![CDATA[
+            <?php foreach ($removedItems as $item): ?>
+            _rejoiner.push(['removeCartItem', {product_id: '<?php echo $item ?>'}]);
+            <?php endforeach; ?>
+        //]]>
+    </script>
+<?php endif; ?>

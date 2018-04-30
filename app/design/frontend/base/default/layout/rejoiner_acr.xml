@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+
+    <default>
+        <reference name="head">
+            <block type="rejoiner_acr/base" name="rejoiner_base" before="-">
+                <action method="setTemplate" ifconfig="checkout/rejoiner_acr/enabled"><template>rejoiner_acr/base.phtml</template></action>
+                <block type="rejoiner_acr/customer" name="rejoiner_customer" template="rejoiner_acr/customer.phtml" />
+            </block>
+        </reference>
+    </default>
+
+    <catalog_product_view>
+        <reference name="rejoiner_base">
+            <block type="rejoiner_acr/product" name="rejoiner_product" template="rejoiner_acr/product.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <checkout_cart_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </checkout_cart_index>
+
+    <rejoiner_acr_tracking>
+        <reference name="rejoiner_base">
+            <block type="rejoiner_acr/snippets" name="rejoiner_tracking" before="-">
+                <action method="setTemplate" ifconfig="checkout/rejoiner_acr/enabled"><template>rejoiner_acr/tracking.phtml</template></action>
+            </block>
+        </reference>
+    </rejoiner_acr_tracking>
+
+    <rejoiner_acr_conversion>
+        <reference name="rejoiner_base">
+            <block type="rejoiner_acr/conversion" name="rejoiner_conversion" before="-">
+                <action method="setTemplate" ifconfig="checkout/rejoiner_acr/enabled"><template>rejoiner_acr/conversion.phtml</template></action>
+            </block>
+        </reference>
+    </rejoiner_acr_conversion>
+
+    <checkout_onepage_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </checkout_onepage_index>
+
+    <onestepcheckout_index_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </onestepcheckout_index_index>
+
+    <checkout_multishipping_addresses>
+        <update handle="rejoiner_acr_tracking"/>
+    </checkout_multishipping_addresses>
+
+    <gomage_checkout_onepage_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </gomage_checkout_onepage_index>
+
+    <checkout_onepage_success>
+        <update handle="rejoiner_acr_conversion"/>
+    </checkout_onepage_success>
+
+    <checkout_multishipping_success>
+        <update handle="rejoiner_acr_conversion"/>
+    </checkout_multishipping_success>
+
+    <aitcheckout_checkout_default>
+        <update handle="rejoiner_acr_tracking"/>
+    </aitcheckout_checkout_default>
+
+    <aitcheckout_checkout_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </aitcheckout_checkout_index>
+
+    <firecheckout_index_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </firecheckout_index_index>
+
+    <firecheckout_index_updatecheckout>
+        <update handle="rejoiner_acr_tracking"/>
+    </firecheckout_index_updatecheckout>
+
+    <firecheckout_index_saveorder>
+        <update handle="rejoiner_acr_tracking"/>
+    </firecheckout_index_saveorder>
+
+    <onepagecheckout_index_success>
+        <update handle="rejoiner_acr_tracking"/>
+    </onepagecheckout_index_success>
+
+    <onepagecheckout_index_updatecheckout>
+        <update handle="rejoiner_acr_tracking"/>
+    </onepagecheckout_index_updatecheckout>
+
+    <opc_index_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </opc_index_index>
+
+    <checkout_prime_index>
+        <update handle="rejoiner_acr_tracking"/>
+    </checkout_prime_index>
+
+</layout>

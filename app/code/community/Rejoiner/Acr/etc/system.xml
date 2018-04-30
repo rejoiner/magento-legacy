@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <checkout>
+            <groups>
+                <rejoiner_acr translate="label" module="rejoiner_acr">
+                    <label>eCommerce Lifecycle Email by Rejoiner</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <site_id translate="label">
+                            <label>Rejoiner Site ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </site_id>
+                        <api_key translate="label">
+                            <label>Rejoiner API key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_key>
+                        <api_secret translate="label">
+                            <label>Rejoiner API secret</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_secret>
+                        <domain translate="label">
+                            <label>Store Domain *</label>
+                            <!--<comment>Required field</comment>-->
+                            <validate>required-entry</validate>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </domain>
+                        <track_numbers>
+                            <label>Track Phone Numbers</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Enable this parameter if you want to track phone numbers.</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </track_numbers>
+                        <price_with_tax>
+                            <label>Track Prices with Taxes</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Enable this parameter if you want to track price with taxes.</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </price_with_tax>
+                        <persist_forms>
+                            <label>Persist Forms</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>If a user returns to the cart, the form fields will repopulate with the data they previously entered (excludes credit card numbers).</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </persist_forms>
+                        <coupon_code translate="label">
+                            <label>Generate Coupon Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_code>
+                        <salesrule_model translate="label">
+                            <label>Select Shopping Cart Price Rule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>rejoiner_acr/system_config_source_salesrule</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </salesrule_model>
+                        <thumbnail_size>
+                            <label>Thumbnail Default Size</label>
+                            <comment>Example format: 200x300.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </thumbnail_size>
+                        <google_attributes translate="label">
+                            <label>Google Analytics data</label>
+                            <frontend_model>rejoiner_acr/adminhtml_preinstalled_form</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><show_standard>0</show_standard></depends>
+                        </google_attributes>
+                        <custom_attributes translate="label">
+                            <label>Custom parameters</label>
+                            <frontend_model>rejoiner_acr/adminhtml_custom_form</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><show_standard>0</show_standard></depends>
+                        </custom_attributes>
+                        <debug_enabled  translate="label">
+                            <label>Debug Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Enable this parameter if you want to enabled debug extension.</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </debug_enabled>
+                    </fields>
+                </rejoiner_acr>
+            </groups>
+        </checkout>
+    </sections>
+</config>
