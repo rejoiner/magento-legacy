@@ -190,6 +190,6 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
                 $result[] = $categoriesArray[$catId]->getName();
             }
         }
-        return implode(' ', $result);
+        return $result;
     }
 }
