@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config>
+    <placeholders>
+        <rejoiner_acr_base>
+            <block>rejoiner_acr/base</block>
+            <placeholder>REJOINER_ACR_BASE</placeholder>
+            <container>Rejoiner_Acr_Model_Container_Base</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </rejoiner_acr_base>
+    </placeholders>
+</config>

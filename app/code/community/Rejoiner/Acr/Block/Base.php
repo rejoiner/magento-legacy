@@ -45,19 +45,20 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                 // From the other hand we won't ever get here if not needed
                 $productCategories = $rejoinerHelper->getProductCategories($product, $categoryCollection->getItems());
                 $thumbnail = 'no_selection';
-
-                // get thumbnail from configurable product
-                if ($product->getData('thumbnail') && ($product->getData('thumbnail') != 'no_selection')) {
-                    $thumbnail = $product->getData('thumbnail');
-                    // or try finding it in the simple one
-                } elseif ($item->getProductType() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+                // try finding thumbnail in the simple item
+                if ($item->getProductType() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
                     /** @var Mage_Sales_Model_Quote_Item $simpleItem */
                     $simpleItem = $parentToChild[$item->getId()];
-                    $simpleProduct = $simpleItem->getProduct();
-                    if ($simpleProduct->getData('thumbnail') && ($simpleProduct->getData('thumbnail') != 'no_selection')) {
-                        $thumbnail = $simpleProduct->getData('thumbnail');
+                    if ($simpleItem) {
+                        $simpleProduct = $simpleItem->getProduct();
+                        if ($simpleProduct->getData('thumbnail') && ($simpleProduct->getData('thumbnail') != 'no_selection')) {
+                            $thumbnail = $simpleProduct->getData('thumbnail');
+                        }
                     }
                 }
+                 elseif ($product->getData('thumbnail') && ($product->getData('thumbnail') != 'no_selection')) {
+                     $thumbnail = $product->getData('thumbnail');
+                 }
                 $io = new Varien_Io_File();
                 if (!$io->fileExists(Mage::getBaseDir('media') . '/catalog/product' . $thumbnail)) {
                     $thumbnail = 'no_selection';
