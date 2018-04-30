@@ -7,6 +7,8 @@ class Rejoiner_Acr_Block_Product extends Rejoiner_Acr_Block_Base
     public function getCurrentProductInfo()
     {
         $product        = Mage::registry('current_product');
+        $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')
+            ->loadByProduct($product)->getQty();
         $imageHelper    = Mage::helper('catalog/image');
         $rejoinerHelper = Mage::helper('rejoiner_acr');
         $mediaUrl       = Mage::getBaseUrl('media');
@@ -23,15 +25,15 @@ class Rejoiner_Acr_Block_Product extends Rejoiner_Acr_Block_Base
         if ($product->getData('thumbnail') && ($product->getData('thumbnail') != 'no_selection')) {
             $thumbnail = $product->getData('thumbnail');
         }
-
-        if (!file_exists(Mage::getBaseDir('media') . '/catalog/product' . $thumbnail)) {
+        $io = new Varien_Io_File();
+        if (!$io->fileExists(Mage::getBaseDir('media') . '/catalog/product' . $thumbnail)) {
             $thumbnail = 'no_selection';
         }
         // use placeholder image if nor simple nor configurable products does not have images
         if ($thumbnail == 'no_selection') {
             $imageHelper->init($product, 'thumbnail');
             $image = Mage::getDesign()->getSkinUrl($imageHelper->getPlaceholder());
-        } elseif($imagePath = $rejoinerHelper->resizeImage($thumbnail)) {
+        } elseif ($imagePath = $rejoinerHelper->resizeImage($thumbnail)) {
             $image = str_replace(Mage::getBaseDir('media') . '/', $mediaUrl, $imagePath);
         } else {
             $image = (string) $mediaUrl . 'catalog/product' . $thumbnail;
@@ -43,7 +45,8 @@ class Rejoiner_Acr_Block_Product extends Rejoiner_Acr_Block_Base
             'price'       => $this->_convertPriceToCents((string) $product->getPrice()),
             'product_id'  => (string) $product->getSku(),
             'product_url' => (string) $product->getProductUrl(),
-            'category'    => $categories
+            'category'    => $categories,
+            'stock'       => $stocklevel
         );
         return str_replace('\\/', '/', json_encode($productData));
     }

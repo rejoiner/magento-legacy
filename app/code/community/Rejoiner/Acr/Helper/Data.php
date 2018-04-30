@@ -17,6 +17,22 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_REJOINER_THUMBNAIL_SIZE  = 'checkout/rejoiner_acr/thumbnail_size';
     const XML_PATH_REJOINER_DEBUG_ENABLED   = 'checkout/rejoiner_acr/debug_enabled';
     const REMOVED_CART_ITEM_SKU_VARIABLE    = 'rejoiner_sku';
+    const XML_PATH_REJOINER_MARKETING_PERMISSIONS = 'checkout/rejoiner_acr/marketing_permissions';
+    const XML_PATH_REJOINER_MARKETING_LIST_ID= 'checkout/rejoiner_acr/marketing_list_id';
+    const XML_PATH_REJOINER_SUBSCRIBE_GUEST_CHECKOUT = 'checkout/rejoiner_acr/subscribe_checkout_onepage_index';
+    const XML_PATH_REJOINER_SUBSCRIBE_ACCOUNT_REGISTRATION = 'checkout/rejoiner_acr/subscribe_customer_account_create';
+    const XML_PATH_REJOINER_SUBSCRIBE_LOGIN_CHECKOUT = 'checkout/rejoiner_acr/subscribe_customer_account_login';
+    const XML_PATH_REJOINER_SUBSCRIBE_CUSTOMER_ACCOUNT = 'checkout/rejoiner_acr/subscribe_newsletter_manage_index';
+    const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_DEFAULT = 'checkout/rejoiner_acr/subscribe_checkbox_default';
+    const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_LABEL = 'checkout/rejoiner_acr/subscribe_checkbox_label';
+    const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_SELECTOR = 'checkout/rejoiner_acr/subscribe_checkbox_selector';
+    const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_STYLE = 'checkout/rejoiner_acr/subscribe_checkbox_style';
+
+    const PAGE_CUSTOMER_REGISTER  = 'customer_account_create';
+    const PAGE_CUSTOMER_LOGIN  = 'customer_account_login';
+    const PAGE_NEWSLETTER_MANAGE  = 'newsletter_manage_index';
+    const PAGE_CHECKOUT_ONEPAGE  = 'checkout_onepage_index';
+
 
     protected $_currentProtocolSecurity = null;
 
@@ -191,5 +207,21 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $result;
+    }
+    /**
+     * @return bool
+     */
+    public function getIsSubscribed()
+    {
+        if (Mage::getSingleton('customer/session')->getIsAlreadySubscribed()) {
+            return true;
+        }
+        $email = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+        $subscriber = Mage::getModel('newsletter/subscriber')->load($email, 'subscriber_email');
+        if ($subscriber->getId() && $subscriber->isSubscribed()) {
+            Mage::getSingleton('customer/session')->setIsAlreadySubscribed(true);
+            return true;
+        }
+        return false;
     }
 }

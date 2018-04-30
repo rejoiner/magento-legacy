@@ -19,7 +19,7 @@ class Rejoiner_Acr_Block_Conversion extends Rejoiner_Acr_Block_Base
             }
             $cartData = array(
                 'cart_value' => $this->_convertPriceToCents($total),
-                'cart_item_count' => intval($quote->getItemsQty()),
+                'cart_item_count' => (int) $quote->getItemsQty(),
                 'customer_order_number' => $session->getLastRealOrderId(),
                 'return_url' => Mage::getUrl('sales/order/view/', array('order_id' => $session->getLastOrderId()))
             );

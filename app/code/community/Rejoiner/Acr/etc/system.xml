@@ -11,6 +11,14 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
+                        <heading_enable translate="label">
+                            <label>Enable Rejoiner</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_enable>
                         <enabled translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
@@ -20,6 +28,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enabled>
+                        <heading_account translate="label">
+                            <label>Rejoiner Account Details</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_account>
                         <site_id translate="label">
                             <label>Rejoiner Site ID</label>
                             <frontend_type>text</frontend_type>
@@ -54,6 +70,41 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </domain>
+                        <heading_converted_customers translate="label">
+                            <label>Send Converted Customers to Rejoiner List</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_converted_customers>
+                        <passing_new_customers>
+                            <label>Pass "new customers" to Rejoiner</label>
+                            <frontend_type>select</frontend_type>
+                            <comment></comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </passing_new_customers>
+                        <list_id translate="label">
+                            <label>List ID</label>
+                            <depends><passing_new_customers>1</passing_new_customers></depends>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </list_id>
+                        <heading_tracking translate="label">
+                            <label>Tracking</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>68</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_tracking>
                         <track_numbers>
                             <label>Track Phone Numbers</label>
                             <frontend_type>select</frontend_type>
@@ -74,6 +125,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </price_with_tax>
+                        <heading_checkout translate="label">
+                            <label>Checkout Options</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>78</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_checkout>
                         <persist_forms>
                             <label>Persist Forms</label>
                             <frontend_type>select</frontend_type>
@@ -84,6 +143,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </persist_forms>
+                        <heading_coupon translate="label">
+                            <label>Coupon Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_coupon>
                         <coupon_code translate="label">
                             <label>Generate Coupon Code</label>
                             <frontend_type>select</frontend_type>
@@ -102,6 +169,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </salesrule_model>
+                        <heading_data translate="label">
+                            <label>Data Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_data>
                         <thumbnail_size>
                             <label>Thumbnail Default Size</label>
                             <comment>Example format: 200x300.</comment>
@@ -131,6 +206,14 @@
                             <show_in_store>1</show_in_store>
                             <depends><show_standard>0</show_standard></depends>
                         </custom_attributes>
+                        <heading_debug translate="label">
+                            <label>Debug Mode</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>145</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_debug>
                         <debug_enabled  translate="label">
                             <label>Debug Mode</label>
                             <frontend_type>select</frontend_type>
@@ -141,6 +224,114 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </debug_enabled>
+                        <heading_marketing translate="label">
+                            <label>Accepts Marketing Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>155</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_marketing>
+                        <marketing_permissions  translate="label">
+                            <label>Accepts Marketing Permissions Capture</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>This will send the email adresses of all customers who opt-in to receive marketing from you to Rejoiner</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </marketing_permissions>
+                        <marketing_list_id  translate="label">
+                            <label>Add Accepts Marketing List ID</label>
+                            <frontend_type>text</frontend_type>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </marketing_list_id>
+                        <subscribe_checkout_onepage_index  translate="label">
+                            <label>Show Opt-In in Guest Checkout</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_checkout_onepage_index>
+                        <subscribe_customer_account_create  translate="label">
+                            <label>Show Opt-In in Account Registration</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_customer_account_create>
+                        <subscribe_customer_account_login  translate="label">
+                            <label>Show Opt-In in Login Checkout</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_customer_account_login>
+                        <subscribe_newsletter_manage_index  translate="label">
+                            <label>Show Opt-In in Customer's Account Settings</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_newsletter_manage_index>
+                        <subscribe_checkbox_default  translate="label">
+                            <label>Should Opt-In be Selected by Default?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Selecting 'Yes' will make all subscribe checkboxes selected by default. We recommend leaving the option of 'NO' selected, so checkboxes won't be selected by default and let your customer to decide to mark checkbox or not.</comment>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_checkbox_default>
+                        <subscribe_checkbox_label  translate="label">
+                            <label>Opt-In Field Label</label>
+                            <frontend_type>text</frontend_type>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <comment>The copy you'd like to use for your opt-in</comment>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_checkbox_label>
+                        <subscribe_checkbox_selector  translate="label">
+                            <label>Add Opt-In's Checkbox Selector (optional)</label>
+                            <frontend_type>text</frontend_type>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <comment>Add a custom class for your checkbox</comment>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_checkbox_selector>
+                        <subscribe_checkbox_style>
+                            <label>Add Opt-In's Checkbox Custom Styling (optional)</label>
+                            <frontend_type>textarea</frontend_type>
+                            <depends><marketing_permissions>1</marketing_permissions></depends>
+                            <comment><![CDATA[Include CSS only like <i>border: 2px solid #efefef;</i>]]></comment>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </subscribe_checkbox_style>
                     </fields>
                 </rejoiner_acr>
             </groups>

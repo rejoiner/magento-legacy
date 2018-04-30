@@ -39,18 +39,46 @@
 
     <checkout_onepage_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </checkout_onepage_index>
 
     <onestepcheckout_index_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </onestepcheckout_index_index>
 
     <checkout_multishipping_addresses>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </checkout_multishipping_addresses>
 
     <gomage_checkout_onepage_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </gomage_checkout_onepage_index>
 
     <checkout_onepage_success>
@@ -63,18 +91,46 @@
 
     <aitcheckout_checkout_default>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </aitcheckout_checkout_default>
 
     <aitcheckout_checkout_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </aitcheckout_checkout_index>
 
     <firecheckout_index_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </firecheckout_index_index>
 
     <firecheckout_index_updatecheckout>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </firecheckout_index_updatecheckout>
 
     <firecheckout_index_saveorder>
@@ -87,14 +143,69 @@
 
     <onepagecheckout_index_updatecheckout>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </onepagecheckout_index_updatecheckout>
 
     <opc_index_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </opc_index_index>
 
     <checkout_prime_index>
         <update handle="rejoiner_acr_tracking"/>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>checkout_onepage_index</value></action>
+            </block>
+        </reference>
     </checkout_prime_index>
 
+    <rejoiner_acr_subscribe>
+        <reference name="head">
+            <action method="addJs"><file>rejoiner_acr/rejoiner-subscribe.js</file></action>
+        </reference>
+    </rejoiner_acr_subscribe>
+    <customer_account_create>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>customer_account_create</value></action>
+            </block>
+        </reference>
+    </customer_account_create>
+
+    <customer_account_login>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>customer_account_login</value></action>
+            </block>
+        </reference>
+    </customer_account_login>
+
+    <newsletter_manage_index>
+        <update handle="rejoiner_acr_subscribe"/>
+        <reference name="before_body_end">
+            <block type="rejoiner_acr/subscribe" name="rejoiner_acr_subscribe">
+                <action method="setTemplate"><template>rejoiner_acr/subscribe.phtml</template></action>
+                <action method="setSubscribePage"><value>newsletter_manage_index</value></action>
+            </block>
+        </reference>
+    </newsletter_manage_index>
 </layout>

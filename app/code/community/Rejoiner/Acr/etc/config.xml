@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Rejoiner_Acr>
-            <version>1.2.3</version>
+            <version>1.2.4</version>
         </Rejoiner_Acr>
     </modules>
     <global>
@@ -10,6 +10,11 @@
             <rejoiner_acr>
                 <class>Rejoiner_Acr_Block</class>
             </rejoiner_acr>
+            <adminhtml>
+                <rewrite>
+                    <newsletter_subscriber_grid>Rejoiner_Acr_Block_Adminhtml_Newsletter_Subscriber_Grid</newsletter_subscriber_grid>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <rejoiner_acr>
@@ -52,7 +57,7 @@
                 <observers>
                     <rejoiner_order_success>
                         <class>rejoiner_acr/observer</class>
-                        <method>trackOrderSuccessConversion</method>
+                        <method>trackOrderSuccess</method>
                     </rejoiner_order_success>
                 </observers>
             </checkout_onepage_controller_success_action>
@@ -64,6 +69,38 @@
                     </remove_cart_item>
                 </observers>
             </sales_quote_remove_item>
+            <customer_save_after>
+                <observers>
+                    <rejoiner_customer_add>
+                        <class>rejoiner_acr/observer</class>
+                        <method>customerSubscribeUpdate</method>
+                    </rejoiner_customer_add>
+                </observers>
+            </customer_save_after>
+            <controller_action_predispatch_customer_account_loginpost>
+                <observers>
+                    <rejoiner_customer_add>
+                        <class>rejoiner_acr/observer</class>
+                        <method>customerLogin</method>
+                    </rejoiner_customer_add>
+                </observers>
+            </controller_action_predispatch_customer_account_loginpost>
+            <controller_action_postdispatch_checkout_onepage_saveBilling>
+                <observers>
+                    <rejoiner_customer_add>
+                        <class>rejoiner_acr/observer</class>
+                        <method>customerCheckout</method>
+                    </rejoiner_customer_add>
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveBilling>
+            <newsletter_subscriber_save_before>
+                <observers>
+                    <rejoiner_customer_add>
+                        <class>rejoiner_acr/observer</class>
+                        <method>handleDefaultSubscribe</method>
+                    </rejoiner_customer_add>
+                </observers>
+            </newsletter_subscriber_save_before>
         </events>
     </frontend>
     <admin>
@@ -94,12 +131,29 @@
                 </rejoiner_acr>
             </updates>
         </layout>
+        <events>
+            <sales_order_save_after>
+                <observers>
+                    <rejoiner_customer_add>
+                        <class>rejoiner_acr/observer</class>
+                        <method>subscribeCustomerAdmin</method>
+                    </rejoiner_customer_add>
+                </observers>
+            </sales_order_save_after>
+        </events>
     </adminhtml>
     <default>
         <checkout>
             <rejoiner_acr>
                 <email>0</email>
                 <debug_enabled>1</debug_enabled>
+                <marketing_permissions>0</marketing_permissions>
+                <subscribe_checkout_onepage_index>1</subscribe_checkout_onepage_index>
+                <subscribe_customer_account_create>1</subscribe_customer_account_create>
+                <subscribe_customer_account_login>1</subscribe_customer_account_login>
+                <subscribe_newsletter_manage_index>1</subscribe_newsletter_manage_index>
+                <subscribe_checkbox_default>0</subscribe_checkbox_default>
+                <subscribe_checkbox_label>Sign Up for Newsletter</subscribe_checkbox_label>
             </rejoiner_acr>
         </checkout>
     </default>

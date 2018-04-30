@@ -1,0 +1,32 @@
+<?php ($selector = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_SELECTOR)) ? trim($selector, '.') : ''; ?>
+<?php $checked = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_DEFAULT) ? ' checked="checked"' : '' ?>
+<?php ($label = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_LABEL)) ? $this->__('%s', trim($label, '.')) : $this->__('Sign Up for Newsletter') ?>
+<?php ($css = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_STYLE)) ? $css : ''; ?>
+<div style="display:none;">
+    <li class="control" id="rejoiner_subscribe">
+        <div class="input-box">
+            <input type="checkbox"
+                   name="is_subscribed"
+                   title="<?php echo Mage::helper('core')->quoteEscape($this->__('Sign Up for Newsletter')) ?>"
+                   value="1" id="is_subscribed"
+                   class="checkbox <?php echo $selector ?>"<?php echo $checked ?>
+                   style="<?php echo $css ?>"/>
+        </div>
+        <label for="is_subscribed"><?php echo $label ?></label>
+    </li>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var rejoinerConfig = <?php echo Mage::getModel('rejoiner_acr/subscribe_jsConfig')->getJsonConfig($this->getSubscribePage()); ?>;
+    document.observe("dom:loaded", function() {
+        var subscribe = new RejoinerSubscribe(rejoinerConfig);
+    });
+    //]]>
+</script>
+
+
+
+
+
+
