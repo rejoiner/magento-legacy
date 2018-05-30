@@ -33,12 +33,47 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
     const PAGE_NEWSLETTER_MANAGE  = 'newsletter_manage_index';
     const PAGE_CHECKOUT_ONEPAGE  = 'checkout_onepage_index';
 
+    const REJOINER_VERSION_1 = 'v1';
+    const REJOINER_VERSION_2 = 'v2';
+
+    const REJOINER2_SITE_ID_LENGTH = 7;
+
 
     protected $_currentProtocolSecurity = null;
 
+    /**
+     * @return string
+     */
     public function getRejoinerSiteId()
     {
         return Mage::getStoreConfig(self::XML_PATH_REJOINER_SITE_ID);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerVersion()
+    {
+        $siteIdLength = strlen($this->getRejoinerSiteId());
+
+        if ($siteIdLength == self::REJOINER2_SITE_ID_LENGTH) {
+            return self::REJOINER_VERSION_2;
+        }
+
+        return self::REJOINER_VERSION_1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerScriptUri()
+    {
+        switch ($this->getRejoinerVersion()) {
+            case self::REJOINER_VERSION_2:
+                return 'https://cdn.rejoiner.com/js/v4/rj2.lib.js';
+            default:
+                return 'https://cdn.rejoiner.com/js/v4/rejoiner.lib.js';
+        }
     }
 
     public function getRestoreUrl()

@@ -1,10 +1,6 @@
 <?php
 class Rejoiner_Acr_Model_Observer
 {
-    const REJOINER_API_URL = 'https://app.rejoiner.com';
-    const REJOINER_API_CONVERT_REQUEST_PATH = '/api/1.0/site/%s/lead/convert';
-    const REJOINER_API_ADD_TO_LIST_REQUEST_PATH = '/api/1.0/site/%s/contact_add';
-    const REJOINER_API_UNSUBSCRIBE_REQUEST_PATH = '/api/1.0/site/%s/lead/unsubscribe';
     const REJOINER_API_LOG_FILE = 'rejoiner_api.log';
 
     const XML_PATH_REJOINER_API_KEY      = 'checkout/rejoiner_acr/api_key';
@@ -15,13 +11,110 @@ class Rejoiner_Acr_Model_Observer
     const XML_PATH_REJOINER_LIST_ID             = 'checkout/rejoiner_acr/list_id';
 
     /**
+     * @return string
+     */
+    public function getRejoinerSiteId()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SITE_ID);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerVersion()
+    {
+        $siteId = $this->getRejoinerSiteId();
+        $siteIdLength = strlen($siteId);
+
+        if ($siteIdLength == Rejoiner_Acr_Helper_Data::REJOINER2_SITE_ID_LENGTH) {
+            return Rejoiner_Acr_Helper_Data::REJOINER_VERSION_2;
+        }
+
+        return Rejoiner_Acr_Helper_Data::REJOINER_VERSION_1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerApiKey()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_REJOINER_API_KEY);
+    }
+
+    /**
+     * @return string|boolean
+     */
+    public function getRejoinerApiSecret()
+    {
+        switch ($this->getRejoinerVersion()) {
+            case Rejoiner_Acr_Helper_Data::REJOINER_VERSION_2:
+                return true;
+            default:
+                return Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SECRET);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerApiUri()
+    {
+        switch ($this->getRejoinerVersion()) {
+            case Rejoiner_Acr_Helper_Data::REJOINER_VERSION_2:
+                return 'https://rj2.rejoiner.com';
+            default:
+                return 'https://app.rejoiner.com';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerApiPath()
+    {
+        switch ($this->getRejoinerVersion()) {
+            case Rejoiner_Acr_Helper_Data::REJOINER_VERSION_2:
+                return '/api/v1/%s';
+            default:
+                return '/api/1.0/site/%s';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerApiConvertPath()
+    {
+        switch ($this->getRejoinerVersion()) {
+            case Rejoiner_Acr_Helper_Data::REJOINER_VERSION_2:
+                return $this->getRejoinerApiPath() . '/customer/convert/';
+            default:
+                return $this->getRejoinerApiPath() . '/lead/convert';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRejoinerApiAddToListPath($listId)
+    {
+        switch ($this->getRejoinerVersion()) {
+            case Rejoiner_Acr_Helper_Data::REJOINER_VERSION_2:
+                return $this->getRejoinerApiPath() . "/lists/$listId/contacts/";
+            default:
+                return $this->getRejoinerApiPath() . '/contact_add';
+        }
+    }
+
+    /**
      * @param Varien_Event_Observer $observer
      * @return $this
      */
     public function trackOrderSuccess(Varien_Event_Observer $observer)
     {
-        $apiKey = Mage::getStoreConfig(self::XML_PATH_REJOINER_API_KEY);
-        $apiSecret = utf8_encode(Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SECRET));
+        $apiKey = $this->getRejoinerApiKey();
+        $apiSecret = utf8_encode($this->getRejoinerApiSecret());
+
         if ($apiKey && $apiSecret) {
             /** @var Mage_Checkout_Model_Session $session */
             $lastOrderId = $observer->getEvent()->getData('order_ids');
@@ -60,6 +153,25 @@ class Rejoiner_Acr_Model_Observer
     }
 
     /**
+     * @param $requestBody
+     * @param $requestPath
+     * @param $apiSecret
+     * @return string
+     */
+    private function buildAuth($requestBody, $requestPath, $apiKey, $apiSecret)
+    {
+        $authorization  = sprintf('Rejoiner %s', $apiKey);
+
+        if ($this->getRejoinerVersion() == Rejoiner_Acr_Helper_Data::REJOINER_VERSION_1) {
+            $hmacData       = utf8_encode(implode("\n", array(Varien_Http_Client::POST, $requestPath, $requestBody)));
+            $codedApiSecret = base64_encode(hash_hmac('sha1', $hmacData, $apiSecret, true));
+            $authorization  = sprintf('Rejoiner %s:%s', $apiKey, $codedApiSecret);
+        }
+
+        return $authorization;
+    }
+
+    /**
      * @param $apiKey
      * @param $apiSecret
      * @param $siteId
@@ -69,11 +181,9 @@ class Rejoiner_Acr_Model_Observer
     private function convert($apiKey, $apiSecret, $siteId, $customerEmail)
     {
         $requestBody    = utf8_encode(sprintf('{"email": "%s"}', $customerEmail));
-        $requestPath    = sprintf(self::REJOINER_API_CONVERT_REQUEST_PATH, $siteId);
-        $hmacData       = utf8_encode(implode("\n", array(Varien_Http_Client::POST, $requestPath, $requestBody)));
-        $codedApiSecret = base64_encode(hash_hmac('sha1', $hmacData, $apiSecret, true));
-        $authorization  = sprintf('Rejoiner %s:%s', $apiKey , $codedApiSecret);
-        $client         = new Varien_Http_Client(self::REJOINER_API_URL . $requestPath);
+        $requestPath    = sprintf($this->getRejoinerApiConvertPath(), $siteId);
+        $authorization  = $this->buildAuth($requestBody, $requestPath, $apiKey, $apiSecret);
+        $client         = new Varien_Http_Client($this->getRejoinerApiUri() . $requestPath);
         $client->setRawData($requestBody);
         $client->setHeaders(array('Authorization' => $authorization, 'Content-type' => 'application/json;' ));
         $this->sendRequest($client);
@@ -89,12 +199,11 @@ class Rejoiner_Acr_Model_Observer
      */
     private function addToList($apiKey, $apiSecret, $siteId, $data)
     {
+        $listId         = $data['list_id'];
         $requestBody    = utf8_encode(json_encode($data));
-        $requestPath    = sprintf(self::REJOINER_API_ADD_TO_LIST_REQUEST_PATH, $siteId);
-        $hmacData       = utf8_encode(implode("\n", array(Varien_Http_Client::POST, $requestPath, $requestBody)));
-        $codedApiSecret = base64_encode(hash_hmac('sha1', $hmacData, $apiSecret, true));
-        $authorization  = sprintf('Rejoiner %s:%s', $apiKey , $codedApiSecret);
-        $client         = new Varien_Http_Client(self::REJOINER_API_URL . $requestPath);
+        $requestPath    = sprintf($this->getRejoinerApiAddToListPath($listId), $siteId);
+        $authorization  = $this->buildAuth($requestBody, $requestPath, $apiKey, $apiSecret);
+        $client         = new Varien_Http_Client($this->getRejoinerApiUri() . $requestPath);
         $client->setRawData($requestBody);
         $client->setHeaders(array('Authorization' => $authorization, 'Content-type' => 'application/json;' ));
         $this->sendRequest($client);
@@ -149,8 +258,8 @@ class Rejoiner_Acr_Model_Observer
      */
     public function updateSubscribe($isSubscribed,  $customerEmail, $customerName)
     {
-        $apiKey = Mage::getStoreConfig(self::XML_PATH_REJOINER_API_KEY);
-        $apiSecret = utf8_encode(Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SECRET));
+        $apiKey = $this->getRejoinerApiKey();
+        $apiSecret = utf8_encode($this->getRejoinerApiSecret());
         $listId = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_MARKETING_LIST_ID);
         if ($apiKey && $apiSecret && $listId) {
             $subscriber = Mage::getModel('newsletter/subscriber')->loadByEmail($customerEmail);
@@ -249,8 +358,8 @@ class Rejoiner_Acr_Model_Observer
             if (!Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_SUBSCRIBE_CUSTOMER_ACCOUNT) && (Mage::app()->getRequest()->getControllerModule() == 'Mage_Newsletter' && Mage::app()->getRequest()->getControllerName() != 'subscriber')) {
                 return $this;
             }
-            $apiKey = Mage::getStoreConfig(self::XML_PATH_REJOINER_API_KEY);
-            $apiSecret = utf8_encode(Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SECRET));
+            $apiKey = $this->getRejoinerApiKey();
+            $apiSecret = utf8_encode($this->getRejoinerApiSecret());
             $siteId = Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SITE_ID);
             $listId = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_MARKETING_LIST_ID);
             if ($apiKey && $apiSecret && $listId) {
@@ -271,8 +380,8 @@ class Rejoiner_Acr_Model_Observer
     {
         if (Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_MARKETING_PERMISSIONS)) {
             $order = $observer->getOrder();
-            $apiKey = Mage::getStoreConfig(self::XML_PATH_REJOINER_API_KEY);
-            $apiSecret = utf8_encode(Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SECRET));
+            $apiKey = $this->getRejoinerApiKey();
+            $apiSecret = utf8_encode($this->getRejoinerApiSecret());
             $siteId = Mage::getStoreConfig(self::XML_PATH_REJOINER_API_SITE_ID);
             $listId = Mage::getStoreConfig(Rejoiner_Acr_Helper_Data::XML_PATH_REJOINER_MARKETING_LIST_ID);
             if ($apiKey && $apiSecret) {
