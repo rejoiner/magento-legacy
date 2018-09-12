@@ -80,6 +80,10 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                     $prodPrice = $item->getBaseCalculationPrice();
                     $rowTotal  = $item->getBaseRowTotal();
                 }
+
+                $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')
+                    ->loadByProduct($product)->getQty();
+
                 $newItem = array(
                     'name'        => $item->getName(),
                     'image_url'   => $image,
@@ -88,7 +92,8 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                     'product_url' => (string) $item->getProduct()->getProductUrl(),
                     'item_qty'    => $item->getQty(),
                     'qty_price'   => $this->_convertPriceToCents($rowTotal),
-                    'category'    => $productCategories
+                    'category'    => $productCategories,
+                    'stock'       => $stocklevel
                 );
                 $items[] = $newItem;
             }
