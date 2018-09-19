@@ -243,6 +243,27 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $result;
     }
+
+    /**
+     * Get the Catalog Inventory Qty value for a specific product.
+     *
+     * @param Mage_Catalog_Model_Product $product Product itself
+     *
+     * @return int
+     */
+    public function getProductStockLevel(Mage_Catalog_Model_Product $product)
+    {
+        /**
+         * Create a Stock Item instance of the specific product.
+         *
+         * @var Mage_CatalogInventory_Model_Stock_Item $stockItem
+         */
+        $stockItem = Mage::getModel('cataloginventory/stock_item')
+            ->loadByProduct($product);
+
+        return (int) $stockItem->getQty();
+    }
+
     /**
      * @return bool
      */

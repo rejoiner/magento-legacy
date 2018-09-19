@@ -81,8 +81,8 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                     $rowTotal  = $item->getBaseRowTotal();
                 }
 
-                $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')
-                    ->loadByProduct($product)->getQty();
+                $stockProduct = isset($simpleProduct) ? $simpleProduct : $product;
+                $stocklevel = $rejoinerHelper->getProductStockLevel($stockProduct);
 
                 $newItem = array(
                     'name'        => $item->getName(),

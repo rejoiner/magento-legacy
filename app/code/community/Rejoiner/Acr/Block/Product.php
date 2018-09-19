@@ -7,10 +7,9 @@ class Rejoiner_Acr_Block_Product extends Rejoiner_Acr_Block_Base
     public function getCurrentProductInfo()
     {
         $product        = Mage::registry('current_product');
-        $stocklevel = (int)Mage::getModel('cataloginventory/stock_item')
-            ->loadByProduct($product)->getQty();
         $imageHelper    = Mage::helper('catalog/image');
         $rejoinerHelper = Mage::helper('rejoiner_acr');
+        $stocklevel     = $rejoinerHelper->getProductStockLevel($product);
         $mediaUrl       = Mage::getBaseUrl('media');
         $thumbnail      = 'no_selection';
         $categories     = array();
