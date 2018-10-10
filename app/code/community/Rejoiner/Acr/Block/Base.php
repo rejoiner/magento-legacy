@@ -51,14 +51,19 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                     $simpleItem = $parentToChild[$item->getId()];
                     if ($simpleItem) {
                         $simpleProduct = $simpleItem->getProduct();
-                        if ($simpleProduct->getData('thumbnail') && ($simpleProduct->getData('thumbnail') != 'no_selection')) {
+                        if ($simpleProduct->getData('thumbnail')) {
                             $thumbnail = $simpleProduct->getData('thumbnail');
                         }
                     }
                 }
-                 elseif ($product->getData('thumbnail') && ($product->getData('thumbnail') != 'no_selection')) {
-                     $thumbnail = $product->getData('thumbnail');
-                 }
+
+                if (($thumbnail === 'no_selection')
+                    && $product->getData('thumbnail')
+                    && ($product->getData('thumbnail') != 'no_selection')
+                ) {
+                    $thumbnail = $product->getData('thumbnail');
+                }
+
                 $io = new Varien_Io_File();
                 if (!$io->fileExists(Mage::getBaseDir('media') . '/catalog/product' . $thumbnail)) {
                     $thumbnail = 'no_selection';
