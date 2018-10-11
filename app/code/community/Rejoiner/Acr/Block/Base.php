@@ -48,7 +48,7 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                 // try finding thumbnail in the simple item
                 if ($item->getProductType() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
                     /** @var Mage_Sales_Model_Quote_Item $simpleItem */
-                    $simpleItem = $parentToChild[$item->getId()];
+                    $simpleItem = isset($parentToChild[$item->getId()]) ? $parentToChild[$item->getId()] : null;
                     if ($simpleItem) {
                         $simpleProduct = $simpleItem->getProduct();
                         if ($simpleProduct->getData('thumbnail')) {
