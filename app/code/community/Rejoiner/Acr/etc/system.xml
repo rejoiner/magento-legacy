@@ -144,7 +144,7 @@
                             <show_in_store>1</show_in_store>
                         </persist_forms>
                         <heading_coupon translate="label">
-                            <label>Coupon Settings</label>
+                            <label>Cart Coupon Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>85</sort_order>
                             <show_in_default>1</show_in_default>
@@ -152,7 +152,7 @@
                             <show_in_store>0</show_in_store>
                         </heading_coupon>
                         <coupon_code translate="label">
-                            <label>Generate Coupon Code</label>
+                            <label>Enable Cart Coupon Code</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>90</sort_order>
@@ -164,11 +164,53 @@
                             <label>Select Shopping Cart Price Rule</label>
                             <frontend_type>select</frontend_type>
                             <source_model>rejoiner_acr/system_config_source_salesrule</source_model>
-                            <sort_order>100</sort_order>
+                            <sort_order>95</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </salesrule_model>
+                        <coupon_code_param>
+                            <label>Custom Parameter Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>96</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_code_param>
+                        <heading_coupon_browse translate="label">
+                            <label>Browse Coupon Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </heading_coupon_browse>
+                        <coupon_code_browse translate="label">
+                            <label>Enable Browse Coupon Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_code_browse>
+                        <salesrule_model_browse translate="label">
+                            <label>Select Shopping Cart Price Rule</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>rejoiner_acr/system_config_source_salesrule</source_model>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </salesrule_model_browse>
+                        <coupon_code_param_browse>
+                            <label>Custom Parameter Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>106</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon_code_param_browse>
                         <heading_data translate="label">
                             <label>Data Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>

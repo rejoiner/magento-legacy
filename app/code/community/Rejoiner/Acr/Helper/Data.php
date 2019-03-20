@@ -27,11 +27,19 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_LABEL = 'checkout/rejoiner_acr/subscribe_checkbox_label';
     const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_SELECTOR = 'checkout/rejoiner_acr/subscribe_checkbox_selector';
     const XML_PATH_REJOINER_SUBSCRIBE_CHECKBOX_STYLE = 'checkout/rejoiner_acr/subscribe_checkbox_style';
+    const XML_PATH_REJOINER_CART_COUPON_ENABLED = 'checkout/rejoiner_acr/coupon_code';
+    const XML_PATH_REJOINER_CART_COUPON_SALESRULE = 'checkout/rejoiner_acr/salesrule_model';
+    const XML_PATH_REJOINER_CART_COUPON_PARAM = 'checkout/rejoiner_acr/coupon_code_param';
+    const XML_PATH_REJOINER_BROWSE_COUPON_ENABLED = 'checkout/rejoiner_acr/coupon_code_browse';
+    const XML_PATH_REJOINER_BROWSE_COUPON_SALESRULE = 'checkout/rejoiner_acr/salesrule_model_browse';
+    const XML_PATH_REJOINER_BROWSE_COUPON_PARAM = 'checkout/rejoiner_acr/coupon_code_param_browse';
 
     const PAGE_CUSTOMER_REGISTER  = 'customer_account_create';
     const PAGE_CUSTOMER_LOGIN  = 'customer_account_login';
     const PAGE_NEWSLETTER_MANAGE  = 'newsletter_manage_index';
     const PAGE_CHECKOUT_ONEPAGE  = 'checkout_onepage_index';
+
+    const DEFAULT_COUPON_PARAM = 'promo';
 
     const REJOINER_VERSION_1 = 'v1';
     const REJOINER_VERSION_2 = 'v2';
@@ -128,6 +136,61 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
     public function getPersistFormsEnabled()
     {
         return Mage::getStoreConfig(self::XML_PATH_REJOINER_PERSIST_FORMS);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCartCouponsEnabled()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_REJOINER_CART_COUPON_ENABLED);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getBrowseCouponsEnabled()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_REJOINER_BROWSE_COUPON_ENABLED);
+    }
+
+    /**
+     * @param string $couponType
+     * @return string
+     */
+    public function getCouponRuleId($couponType)
+    {
+        switch ($couponType) {
+            case 'cart':
+                return Mage::getStoreConfig(self::XML_PATH_REJOINER_CART_COUPON_SALESRULE);
+            case 'browse':
+                return Mage::getStoreConfig(self::XML_PATH_REJOINER_BROWSE_COUPON_SALESRULE);
+        }
+    }
+
+    /**
+     * @param string $couponType
+     * @return string
+     */
+    public function getCouponParam($couponType)
+    {
+        switch ($couponType) {
+            case 'cart':
+                $couponParam = Mage::getStoreConfig(self::XML_PATH_REJOINER_CART_COUPON_PARAM);
+                break;
+            case 'browse':
+                $couponParam = Mage::getStoreConfig(self::XML_PATH_REJOINER_BROWSE_COUPON_PARAM);
+                break;
+            default:
+                $couponParam = '';
+        }
+
+        if (strlen($couponParam)) {
+            return $couponParam;
+        }
+
+        return self::DEFAULT_COUPON_PARAM;
+        
     }
 
     /**

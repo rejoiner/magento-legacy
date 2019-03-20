@@ -6,7 +6,11 @@
     _rejoiner.push(["setAccount", "<?php echo $this->helper('rejoiner_acr')->getRejoinerSiteId() ?>"]);
     _rejoiner.push(["setDomain", "<?php echo $this->helper('rejoiner_acr')->getDomain() ?>"]);
 
-    <?php echo $this->getChildHtml('',false);?>
+    <?php if ($sessionMetadata = $this->getSessionMetadata()): ?>
+        _rejoiner.push(["setSessionMetadata", <?php echo $sessionMetadata ?>]);
+    <?php endif; ?>
+
+    <?php echo $this->getChildHtml('', false); ?>
 
     (function() {
         var s = document.createElement('script'); s.type = 'text/javascript';
