@@ -64,12 +64,12 @@ class Rejoiner_Acr_Block_Customer extends Rejoiner_Acr_Block_Base
     protected function getGender()
     {
         $genderText = $this->getCurrentCustomer()
-          ->getResource()
-          ->getAttribute('gender')
-          ->getSource()
-          ->getOptionText($this->getCurrentCustomer()->getData('gender'));
+            ->getResource()
+            ->getAttribute('gender')
+            ->getSource()
+            ->getOptionText($this->getCurrentCustomer()->getData('gender'));
 
-        return $genderText? $genderText : '';
+        return $genderText ? strtolower($genderText[0]) : '';
     }
 
     /**
