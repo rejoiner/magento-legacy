@@ -27,7 +27,7 @@ class Rejoiner_Acr_Block_Snippets extends Rejoiner_Acr_Block_Base
             $rejoinerHelper = Mage::helper('rejoiner_acr');
 
             $cartData = array(
-                'total_items_count' => (int) $this->_getQuote()->getItemsQty(),
+                'cart_item_count' => (int) $this->_getQuote()->getItemsQty(),
                 'cart_value'        => $this->_convertPriceToCents($total),
                 'return_url'        => (string) $rejoinerHelper->getRestoreUrl(),
             );
