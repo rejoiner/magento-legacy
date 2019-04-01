@@ -101,15 +101,25 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
         }
+
         $googleAttributesArray = $this->returnGoogleAttributes();
         $customAttributesArray = $this->returnCustomAttributes();
 
         $queryParams = array_merge($product, $googleAttributesArray, $customAttributesArray);
+
         $url = Mage::getUrl('rejoiner/addtocart/', array(
             '_query' => $queryParams,
             '_secure' => true
         ));
-        return substr($url, 0, strlen($url)-1);
+
+        $lastCharOfUrl = substr($url, strlen($url) - 1);
+
+        switch ($lastCharOfUrl) {
+            case '/':
+                return substr($url, 0, strlen($url) - 1);
+            default:
+                return $url;
+        }
     }
 
     public function getDomain()
