@@ -35,6 +35,7 @@ class Rejoiner_Acr_Block_Snippets extends Rejoiner_Acr_Block_Base
             if ($rejoinerHelper->getCartCouponsEnabled()) {
                 $couponCodeParam = $rejoinerHelper->getCouponParam('cart');
                 $cartData[$couponCodeParam] = (string) $this->_generateCouponCode('cart');
+                $cartData = array_merge($cartData, $this->_getExtraCodes('cart'));
             }
         }
         return $cartData;
@@ -62,5 +63,20 @@ class Rejoiner_Acr_Block_Snippets extends Rejoiner_Acr_Block_Base
     protected function getTrackPriceWithTax()
     {
         return Mage::getStoreConfig(self::XML_PATH_REJOINER_TRACK_PRICE_WITH_TAX);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCartExtraCodes() {
+        $result=array();
+        if ($googleAnalitics = Mage::getStoreConfig('checkout/rejoiner_acr/extra_codes')) {
+            foreach (unserialize($googleAnalitics) as $attr) {
+                if ($attr['attr_name'] && $attr['value']) {
+                    $result[$attr['attr_name']] = $attr['value'];
+                }
+            }
+        }
+        return $result;
     }
 }

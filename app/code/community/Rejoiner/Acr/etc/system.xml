@@ -177,6 +177,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </coupon_code_param>
+                        <extra_codes translate="label">
+                            <label>Additional Cart Coupons</label>
+                            <frontend_model>rejoiner_acr/adminhtml_promo_form</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>98</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><show_standard>0</show_standard></depends>
+                        </extra_codes>
                         <heading_coupon_browse translate="label">
                             <label>Browse Coupon Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -211,6 +221,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </coupon_code_param_browse>
+                        <extra_codes_browse translate="label">
+                            <label>Additional Browse Coupons</label>
+                            <frontend_model>rejoiner_acr/adminhtml_promo_form</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>107</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><show_standard>0</show_standard></depends>
+                        </extra_codes_browse>
                         <heading_data translate="label">
                             <label>Data Settings</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>

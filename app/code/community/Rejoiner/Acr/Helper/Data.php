@@ -299,6 +299,32 @@ class Rejoiner_Acr_Helper_Data extends Mage_Core_Helper_Abstract
         return $result;
     }
 
+    /**
+     * @param string $couponType
+     * @return array
+     */
+    public function returnExtraCodes($couponType) {
+        $result = array();
+
+        switch ($couponType) {
+            case 'cart':
+                $extraCodes = Mage::getStoreConfig('checkout/rejoiner_acr/extra_codes');
+                break;
+            case 'browse':
+                $extraCodes = Mage::getStoreConfig('checkout/rejoiner_acr/extra_codes_browse');
+                break;
+        }
+
+        if ($extraCodes) {
+            foreach (unserialize($extraCodes) as $attr) {
+                if ($attr['promo_param'] && $attr['promo_salesrule']) {
+                    $result[$attr['promo_param']] = $attr['promo_salesrule'];
+                }
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * @param Mage_Catalog_Model_Product $product

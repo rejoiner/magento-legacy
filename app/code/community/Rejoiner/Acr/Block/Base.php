@@ -4,6 +4,8 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
 {
     const XML_PATH_REJOINER_TRACK_PRICE_WITH_TAX = 'checkout/rejoiner_acr/price_with_tax';
 
+    const REJOINER_PARAM_NAMESPACE = 'rejoiner_';
+
     /**
      * @return array
      */
@@ -114,9 +116,11 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
         $rejoinerHelper = Mage::helper('rejoiner_acr');
 
         $sessionMetadata = array();
+
         if ($rejoinerHelper->getBrowseCouponsEnabled()) {
             $couponCodeParam = $rejoinerHelper->getCouponParam('browse');
             $sessionMetadata[$couponCodeParam] = (string) $this->_generateCouponCode('browse');
+            $sessionMetadata = array_merge($sessionMetadata, $this->_getExtraCodes('browse'));
         }
 
         if (empty($sessionMetadata)) {
@@ -128,34 +132,61 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
 
     /**
      * @param string $couponType
+     * @return array
+     */
+    protected function _getExtraCodes($couponType)
+    {
+        $rejoinerHelper = Mage::helper('rejoiner_acr');
+        $extraCodes = $rejoinerHelper->returnExtraCodes($couponType);
+
+        foreach ($extraCodes as $param => $salesrule) {
+            $extraCodes[$param] = $this->_generateCouponCode($couponType, $salesrule, $param);
+        }
+
+        return $extraCodes;
+    }
+
+    protected function _namespaceParam($param)
+    {
+        $namespace = self::REJOINER_PARAM_NAMESPACE;
+        return $namespace . $param;
+    }
+
+    /**
+     * @param string $couponType
+     * @param string $param
      * @return string
      */
-    protected function _getCouponCode($couponType)
+    protected function _getCouponCode($couponType, $param = 'promo')
     {
         switch ($couponType) {
             case 'cart':
                 /** @var Mage_Checkout_Helper_Cart $cartHelper */
                 $cartHelper = Mage::helper('checkout/cart');
                 /** @var Mage_Sales_Model_Quote $quote */
-                $couponSource = $cartHelper->getCart()->getQuote();
+                $quote = $cartHelper->getCart()->getQuote();
+                $codes = unserialize($quote->getPromo());
+                $couponCode = isset($codes[$param]) ? $codes[$param] : '';
                 break;
             case 'browse':
                 /** @var Mage_Core_Model_Session $session */
-                $couponSource = Mage::getSingleton('core/session');
+                $session = Mage::getSingleton('core/session');
+                $couponCode = $session->getData($this->_namespaceParam($param));
                 break;
             default:
-                return '';
+                $couponCode = '';
         }
 
-        return $couponSource->getPromo();
+        return $couponCode;
     }
 
     /**
      * @param string $couponType
      * @param string $couponCode
+     * @param string $param
      * @return
      */
-    protected function _setCouponCode($couponType, $couponCode)
+    protected function _setCouponCode($couponType, $couponCode, $param = 'promo')
     {
         $couponCode = strlen($couponCode) ? $couponCode : '';
 
@@ -163,15 +194,17 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
             case 'cart':
                 /** @var Mage_Checkout_Helper_Cart $cartHelper */
                 $cartHelper = Mage::helper('checkout/cart');
+                $cartQuote = $cartHelper->getCart()->getQuote();
 
-                return $cartHelper->getCart()
-                    ->getQuote()
-                    ->setPromo($couponCode)
-                    ->save();
+                $codes = unserialize($cartQuote->getPromo());
+
+                $codes[$param] = $couponCode;
+
+                return $cartQuote->setPromo(serialize($codes))->save();
             case 'browse':
                 /** @var Mage_Core_Model_Session $session */
                 $session = Mage::getSingleton('core/session');
-                return $session->setPromo($couponCode);
+                return $session->setData($this->_namespaceParam($param), $couponCode);
         }
     }
 
@@ -179,12 +212,14 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
      * @param string $couponType
      * @return string
      */
-    protected function _generateCouponCode($couponType)
+    protected function _generateCouponCode($couponType, $ruleId = null, $param = 'promo')
     {
-        $couponCode = $this->_getCouponCode($couponType);
+        $couponCode = $this->_getCouponCode($couponType, $param);
 
         $rejoinerHelper = Mage::helper('rejoiner_acr');
-        $ruleId = $rejoinerHelper->getCouponRuleId($couponType);
+        if ($ruleId == null) {
+            $ruleId = $rejoinerHelper->getCouponRuleId($couponType);
+        }
 
         /** @var Mage_SalesRule_Model_Rule $ruleItem */
         $ruleItem   = Mage::getModel('salesrule/rule')
@@ -205,7 +240,7 @@ class Rejoiner_Acr_Block_Base extends Mage_Core_Block_Template
                 ->setType(Mage_SalesRule_Helper_Coupon::COUPON_TYPE_SPECIFIC_AUTOGENERATED)
                 ->save();
 
-            $this->_setCouponCode($couponType, $couponCode);
+            $this->_setCouponCode($couponType, $couponCode, $param);
         }
 
         return $couponCode;

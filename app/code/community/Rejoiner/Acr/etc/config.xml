@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Rejoiner_Acr>
-            <version>1.4.3</version>
+            <version>1.4.4</version>
         </Rejoiner_Acr>
     </modules>
     <global>
