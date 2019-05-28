@@ -22,7 +22,7 @@ class Rejoiner_Acr_Block_Adminhtml_Form_Field_Salesrule extends Mage_Core_Block_
     {
         if (!$this->getOptions()) {
             foreach ($this->_getSalesrules() as $rule) {
-                $this->addOption($rule['value'], Mage::helper('adminhtml')->__(addslashes($rule['label'])));
+                $this->addOption($rule['value'], Mage::helper('adminhtml')->__($rule['label']));
             }
         }
         return parent::_toHtml();
